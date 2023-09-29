@@ -1,0 +1,19 @@
+image: atlassian/default-image:3
+
+pipelines:
+  branches:
+    main:
+      - stage:
+          name: Deploy CDK
+          deployment: Production
+          steps:
+            - step:
+                name: Install deps and run CDK deploy commands
+                script:
+                  - npm i
+                  - npm run cdk synth
+                  - npm run cdk deploy -- --require-approval never
+                services:
+                  - docker
+                caches:
+                  - docker
